@@ -1,4 +1,11 @@
-import SuperTienda from './managerModel.js';
+import SuperTienda from './manager.js';
+import { BaseException,
+  InvalidAccessConstructorException,
+  EmptyValueException,
+  InvalidValueException,
+  AbstractClassException } from './manager.js';
+import {Product, Category} from './manager.js';
+import {ManagerException, ObjecManagerException, CategoryExistsException, ProductExistInCategoryException, CategoryNotExistException, ProductNotExistInManagerException, ProductNotExistInCategoryException} from './manager.js';
 
 class SuperTiendaController {
     // Creamos los campos privados para el modelo y la vista

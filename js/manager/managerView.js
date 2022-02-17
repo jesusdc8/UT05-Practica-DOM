@@ -1,4 +1,4 @@
-import SuperTienda from './managerModel.js';
+import SuperTienda from './manager.js';
 
 class SuperTiendaView {
 
