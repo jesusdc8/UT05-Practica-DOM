@@ -69,6 +69,10 @@ class Product{
         if (!value) throw new EmptyValueException("description");
 		this.#description = description;
     }
+
+	toString(){
+		return "Serial: " + this.serial + " Brand: " + this.brand + " Model: " + this.model + " Price: " + this.price + " Description: " + this.description;
+	}
 }
 
 class Category {

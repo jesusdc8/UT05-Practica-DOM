@@ -1,4 +1,4 @@
-import SuperTienda from './manager.js';
+import {SuperTienda} from './manager.js';
 import { BaseException,
 	InvalidAccessConstructorException,
 	EmptyValueException,

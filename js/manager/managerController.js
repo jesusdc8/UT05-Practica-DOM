@@ -1,4 +1,4 @@
-import SuperTienda from './manager.js';
+import {SuperTienda} from './manager.js';
 import { BaseException,
   InvalidAccessConstructorException,
   EmptyValueException,
@@ -22,6 +22,10 @@ class SuperTiendaController {
 
     onInit = () => {
         this.#viewSuperTienda.init();
+    }
+
+    onDisplayShops = () => {
+        this.#viewSuperTienda.displayShops();
     }
     
 }

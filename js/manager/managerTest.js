@@ -1,134 +1,98 @@
-import SuperTienda from './manager.js';
-// import Manager from './manager.js';
+import {SuperTienda} from './manager.js';
+import { Product, Shop, Category } from './manager.js';
 import { BaseException,
   InvalidAccessConstructorException,
   EmptyValueException,
   InvalidValueException,
   AbstractClassException } from './manager.js';
-import {Product, Category} from './manager.js';
+
 import {ManagerException, ObjecManagerException, CategoryExistsException, ProductExistInCategoryException, CategoryNotExistException, ProductNotExistInManagerException, ProductNotExistInCategoryException} from './manager.js';
-// import {SortedMap} from './sortedmap.js';
 
-let category1 = new Category('Promociones');
-let category2 = new Category('Outlet');
-let category4 = new Category('Reacondicionados');
-category1.description = 'Productos en promoción.';
-category2.description = 'Outlet de productos con grandes descuentos.';
-category3.description = 'Ofertas actuales.';
-category4.description = 'Productos reacondicionados o seminuevos.';
-// let errorCategory = new Category('Reacondicionados');
+let category1 = new Category('Moviles');
+let category2 = new Category('Portatiles');
+let category3 = new Category('Sobremesa');
+let category4 = new Category('Televisores');
 
-let product1 = new Product(1, 'brand1', 'model1', 1100);
-let product2 = new Product(2, 'brand11', 'model2', 1200);
-let product3 = new Product(3, 'brand12', 'model3', 1300);
-let product4 = new Product(4, 'brand13', 'model4', 1400);
+category1.description = 'Telefonos móviles.';
+category2.description = 'Ordenadores portátiles';
+category3.description = 'Ordenadores sobremesa.';
+category4.description = 'Televisores de todos los tamaños';
+
+let product1 = new Product(1, 'Samsung', 'Galaxy s21', 1100);
+let product2 = new Product(2, 'Apple', 'Iphone 12 Pro', 1200);
+let product3 = new Product(3, 'Xiaomi', 'Mi 11', 500);
+let product4 = new Product(4, 'Apple', 'Iphone 11', 900);
+
+let product5 = new Product(5, 'Acer', 'Aspire', 500);
+let product6 = new Product(6, 'HP', 'Pavilion', 1000);
+let product7 = new Product(7, 'MSI', 'Ultra', 1300);
+let product8 = new Product(8, 'HP', 'UltraBook', 1000);
+
+let product9 = new Product(9, 'HP', 'OMEN', 1100);
+let product10 = new Product(10, 'SuperTienda', 'Ultra', 1200);
+let product11 = new Product(11, 'SuperTienda', 'Mega', 1300);
+let product12 = new Product(12, 'HP', 'Gaming', 1400);
+
+let product13 = new Product(13, 'Lg', 'Oled', 1800);
+let product14 = new Product(14, 'Samsung', 'Qled', 1200);
+let product15 = new Product(15, 'Lg', 'NanoCell', 1300);
+let product16 = new Product(16, 'Lg', '4k', 1400);
+
+let shop1 = new Shop(1, 'Calle falsa 123','Madrid','Spain','https://upload.wikimedia.org/wikipedia/commons/4/44/Plaza_Mayor_de_Madrid_06.jpg');
+let shop2 = new Shop(2, 'Calle de la concepción 4','Barcelona','Spain','https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/4d/45/49/province-of-barcelona.jpg?w=700&h=500&s=1');
+let shop3 = new Shop(3, 'Calle verde s/n','Valencia','Spain','https://www.teacheracademy.eu/wp-content/uploads/2021/09/teacher-training-valencia.jpg');
 
 
 function testCreateObjects(){
-  let SuperTienda = SuperTienda.getInstance();
+  let superTienda = SuperTienda.getInstance();
 
-	// $$result.logBold("Testeo: Objetos categorias");
-  SuperTienda.addCategory(category2, category1, category4);
-//   try{
-//     SuperTienda.addCategory(errorCategory);
-//   } catch(error){
-//     console.log(error.toString());
-//   }
-	// testListCategories();
+  superTienda.addCategory(category2, category1, category3, category4);
+  superTienda.addShop(shop1, shop2, shop3);
 
-	// $$result.logBold("Testeo: Objetos productos");
-  SuperTienda.addProduct(product2, product3, product4, product5);
-  SuperTienda.addProduct(product7, product8, product9, product10);
-  SuperTienda.addProduct(product12, product13, product14, product15);
-  SuperTienda.addProduct(product17, product18, product19, product20);
-	// testListProducts();
+  superTienda.addProduct(product2, product3, product4, product5, product6);
+  superTienda.addProduct(product7, product8, product9, product10);
+  superTienda.addProduct(product12, product13, product14, product15);
+  superTienda.addProduct(product16, product11);
 
-  SuperTienda.addProductInCategory(category1, product1, product2, product3, product4, product5);
-  SuperTienda.addProductInCategory(category2, product6, product7, product8, product9, product10);
-  SuperTienda.addProductInCategory(category3, product11, product12, product13, product14, product15);
-  SuperTienda.addProductInCategory(category4, product16, product17, product18, product19, product20);
-	// testListProducts();
-
-// 	$$result.logBold("Contenido del carrito");
-//   $$result.log(SuperTienda.toString('<br>'));
+  superTienda.addProductInCategory(category1, product1, product2, product3, product4);
+  superTienda.addProductInCategory(category2, product5, product6, product7, product8);
+  superTienda.addProductInCategory(category3, product9, product10, product11, product12);
+  superTienda.addProductInCategory(category4, product13, product14, product15, product16);
 }
 
-// function testRemoveObjects(){
-// 	let SuperTienda = SuperTienda.getInstance();
+function testListProducts(){
+  console.log("Listado Products")
+	let superTienda = SuperTienda.getInstance();
 
-// 	// $$result.logBold("Test: Borrado de objetos");
-// 	// $$result.logBold("Test: Borrado de productos");
-// 	// $$result.log("Productos: p1 y p12");
-// 	SuperTienda.removeProduct(product1, product12);
-// 	// $$result.logBold("Test: Borrado de productos en categorías");
-// 	// $$result.log("Productos: p2 y p3 en c1");
-// 	// SuperTienda.removeProductInCategory(category1, product3, product2);
-// 	// try{
-// 	// 	SuperTienda.removeProductInCategory(category1, product19);
-// 	// } catch(error){
-// 	// 	console.log(error.toString());
-// 	// }
+  for ( let product of superTienda.products){
+    console.log(product.toString());
+  }
+}
 
-// 	// $$result.logBold("Test: Borrado de categoría");
-// 	// $$result.log("Categoría: c2");
-// 	// SuperTienda.removeCategory(category2);
+function testListCategories(){
+	let superTienda = SuperTienda.getInstance();
 
-// 	try{
-// 		SuperTienda.removeCategory(new Category('ErrorCategory', 'img/error.jpg'));
-// 	} catch(error){
-// 		console.log(error.toString());
-// 	}
+	console.log("Listado Categorías");
+	for (let category of superTienda.categories){
+		console.log(category.title);
+	}
+}
 
-// 	$$result.logBold("Contenido del carrito");
-// 	$$result.log(SuperTienda.toString('<br>'));
-// }
+function testListShops(){
+	let superTienda = SuperTienda.getInstance();
 
-// function testListObjects(){
-// 	let SuperTienda = SuperTienda.getInstance();
+	console.log("Listado Tiendas");
+	for (let shop of superTienda.shops){
+		console.log(shop.city);
+	}
+}
 
-// 	// $$result.logBold("Listado Laptop ordenado por brand");
-// 	for (let product of SuperTienda.getTypeProducts(Laptop, 'brand')){
-// 		// $$result.log(product.toString());
-// 	}
-// }
-
-// function testListProducts(){
-// 	let SuperTienda = SuperTienda.getInstance();
-
-// 	$$result.logBold("Listado Productos");
-// 	for (let product of SuperTienda.products){
-// 		$$result.log(product.toString());
-// 	}
-// }
-
-// function testListCategories(){
-// 	let SuperTienda = SuperTienda.getInstance();
-
-// 	$$result.logBold("Listado Categorías");
-// 	for (let category of SuperTienda.categories){
-// 		$$result.log(category.title);
-// 	}
-// }
-
-// function testListOrderedProducts(){
-// 	let SuperTienda = SuperTienda.getInstance();
-
-// 	$$result.logBold("Listado productos ordenados por precio");
-// 	let ordered = (productA, productB) => (productA[1].serial > productB[1].serial)? -1:1;
-// 	for (let category of SuperTienda.categories){
-// 		$$result.log(category.title);
-// 		for (let product of SuperTienda.getCategoryProducts(category, ordered)){
-// 			$$result.log(product.toString());
-// 		}
-// 	}
-// }
-
-// function testManager(){
-// 	$$result.logBold("Testeo del Manager");
-// 	testCreateObjects();
-// 	testRemoveObjects();
-// 	testListObjects();
-// 	testListOrderedProducts();
-// }
+function testManager(){
+	console.log("Testeo del Manager");
+	testCreateObjects();
+  testListProducts();
+  testListShops();
+testListCategories()
+}
 
 export {testManager};

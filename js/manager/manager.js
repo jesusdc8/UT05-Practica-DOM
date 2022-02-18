@@ -122,6 +122,23 @@ let SuperTienda = (function () {
           return this;
         }
 
+        addShop(){
+          for (let shop of arguments){
+            if (!(shop instanceof Shop)) { //validamos que el argumento sea un obj category
+              throw new ObjecManagerException ('shop', 'Shop');
+            }
+            if (!this.#shops.has(shop.id)){ //Validamos que no exista ya esa categoria
+              this.#shops.set(shop.id, {
+                shop: shop,
+                products: new Map() //inicializamos un mapa de productos de esa categoria
+              });
+            } else {
+              throw new ShopExitsException(shop);
+            }
+          }
+          return this;
+        }
+
         addProduct(){
           for (let product of arguments){
             if (!(product instanceof Product)) {//validamos que el argumento sea un obj product
@@ -163,21 +180,29 @@ let SuperTienda = (function () {
           return this;
         }
 
-        addShop(){
-          for (let shop of arguments){
-            if (!(shop instanceof Shop)) { //validamos que el argumento sea un obj tienda
-              throw new ObjecManagerException ('shop', 'Shop');
-            }
-            if (!this.#shops.has(shop.id)){ //Validamos que no exista ya esa tienda
-              this.#shops.set(shop.id, {
-                shop: shop,
-                products: new Map() //inicializamos un mapa de productos de esa tienda
-              });
-            } else {
-              throw new ShopExitsException(shop);
+        get categories(){
+          // referencia para habilitar el closure en el objeto
+          let values = this.#categories.values();
+          return {
+            * [Symbol.iterator](){
+              for (let storedCategory of values){
+                yield storedCategory.category;
+              }
             }
           }
-          return this;
+        }
+  
+        //Devuelve un iterator de los productos
+        get products(){
+          // referencia para habilitar el closure en el objeto
+          let values = this.#products.values();
+          return {
+            * [Symbol.iterator](){
+              for (let product of values){
+                yield product;
+              }
+            }
+          }
         }
 
         addProductInShop (shop){
@@ -206,7 +231,30 @@ let SuperTienda = (function () {
           }
           return this;
         }
+
+        get shops(){
+          // alert()
+          let values = this.#shops.values();
+          return {
+            * [Symbol.iterator](){
+              for (let storedShop of values){
+                yield storedShop.shop;
+              }
+            }
+          }
+        }
+
+        
+
       }
+
+      Object.defineProperty(SuperTienda.prototype, 'categories', {enumerable: true});
+      Object.defineProperty(SuperTienda.prototype, 'products', {enumerable: true});
+      Object.defineProperty(SuperTienda.prototype, 'shops', {enumerable: true});
+
+      let superTienda = new SuperTienda();
+      Object.freeze(superTienda);
+      return superTienda;
     }
     return {
       getInstance: function () {
@@ -214,7 +262,7 @@ let SuperTienda = (function () {
           instantiated = init();
         }
         return instantiated;
-      },
+      }
     };
   })();
 
@@ -227,4 +275,4 @@ export {BaseException,
   AbstractClassException } from '../exceptions.js';
 export {Product, Category} from '../entities/products.js';
 export {Shop} from '../entities/shops.js';
-export default SuperTienda;
+export {SuperTienda};
