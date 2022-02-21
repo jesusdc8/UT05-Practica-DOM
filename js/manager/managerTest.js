@@ -41,6 +41,7 @@ let product16 = new Product(16, 'Lg', '4k', 1400);
 let shop1 = new Shop(1, 'Calle falsa 123','Madrid','Spain','https://upload.wikimedia.org/wikipedia/commons/4/44/Plaza_Mayor_de_Madrid_06.jpg');
 let shop2 = new Shop(2, 'Calle de la concepción 4','Barcelona','Spain','https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/4d/45/49/province-of-barcelona.jpg?w=700&h=500&s=1');
 let shop3 = new Shop(3, 'Calle verde s/n','Valencia','Spain','https://www.teacheracademy.eu/wp-content/uploads/2021/09/teacher-training-valencia.jpg');
+// let shop4 = new Shop(4, 'Calle ventana s/n','florida','Estados unidos','https://blog-eeuu.com/wp-content/uploads/2013/09/florida.jpg');
 
 
 function testCreateObjects(){

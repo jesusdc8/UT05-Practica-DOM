@@ -40,17 +40,13 @@ class SuperTiendaView {
       let shopsLiks = [];
 
       for (let shop of superTienda.shops){
-          shopMenu.children().append(`<li><a class="myClass dropdown-item" id="shop-link-${shop.id}" href="#">${shop.city}</a></li>`);
+          shopMenu.append(`<li><a class="dropdown-item" id="shop-link-${shop.id}" href="#">${shop.city}</a></li>`);
           shopsLiks.push($('#shop-link-shop-'+shop.id));
       }
 
       for (let category of superTienda.categories){
-          categoryMenu.children().append(`<li><a class="dropdown-item" href="#">${category.title}</a></li>`);
+          categoryMenu.append(`<li><a class="dropdown-item" href="#">${category.title}</a></li>`);
       }
-
-      $('.myClass').click(function (e) { 
-          
-      });
 
 
   }
