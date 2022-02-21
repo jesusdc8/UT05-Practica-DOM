@@ -15,7 +15,7 @@ class SuperTiendaView {
     let cards = $('#shop-card');
     for (let shop of superTienda.shops){
       cards.after(`<div class="card m-3 mt-5" style="width: 18rem;">
-      <img src="${shop.image}" class="card-img-top" alt="..." style=" height: 13rem">
+      <img src="${shop.image}" class="card-img-top mt-3 rounded" alt="..." style=" height: 13rem">
       <div class="card-body">
         <h5 class="card-title">${shop.city}</h5>
         <p class="card-text">Nuestra tienda situada en ${shop.city}</p>
@@ -70,7 +70,7 @@ class SuperTiendaView {
     this.main.empty();
     this.main.append(`<div class="container px-4 py-5 mt-3"><h2 class="pb-2 border-bottom">Información sobre la Tienda</h2>
     <div class="e" style="background-color: ; float: left; ">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Plaza_Mayor_de_Madrid_06.jpg" alt="" class="shop-img m-3">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Plaza_Mayor_de_Madrid_06.jpg" alt="" class="shop-img m-3 rounded">
       
     </div>
     <h3 class="m-3">Madrid</h3>
