@@ -3,7 +3,7 @@ import { BaseException,
   EmptyValueException,
   InvalidValueException,
   AbstractClassException } from '../exceptions.js';
-import {Product, Category} from '../entities/products.js';
+import {Product, Category, Laptop, Smartphone, Tv} from '../entities/products.js';
 import {Shop} from '../entities/shops.js';
 
 class ManagerException extends BaseException {
@@ -242,10 +242,11 @@ let SuperTienda = (function () {
               }
             }
           }
+        }      
+
+        findShop(shopId){
+          return this.#shops.get(shopId);
         }
-
-        
-
       }
 
       Object.defineProperty(SuperTienda.prototype, 'categories', {enumerable: true});
@@ -273,6 +274,6 @@ export {BaseException,
   EmptyValueException,
   InvalidValueException,
   AbstractClassException } from '../exceptions.js';
-export {Product, Category} from '../entities/products.js';
+export {Product, Category, Laptop, Smartphone, Tv} from '../entities/products.js';
 export {Shop} from '../entities/shops.js';
 export {SuperTienda};

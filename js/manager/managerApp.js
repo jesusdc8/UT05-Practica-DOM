@@ -4,7 +4,7 @@ import { BaseException,
 	EmptyValueException,
 	InvalidValueException,
 	AbstractClassException } from './manager.js';
-import {Product, Category} from './manager.js';
+import {Product, Category, Laptop, Smartphone, Tv} from './manager.js';
 import {Shop} from '../entities/shops.js';
 import {ManagerException, ObjecManagerException, CategoryExistsException, ProductExistInCategoryException, CategoryNotExistException, ProductNotExistInManagerException, ProductNotExistInCategoryException} from './manager.js';
 import  SuperTiendaView from './managerView.js';

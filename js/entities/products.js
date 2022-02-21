@@ -13,20 +13,13 @@ class Product{
 	#price;
 	#description;
 
-    constructor (serial, brand, model, price){
+    constructor (serial, brand, model, price, description = ''){
         this.#serial = serial;
 		this.#brand = brand;
 		this.#model = model;
 		this.#price = price;
+		this.#description = description;
     }
-
-    // constructor (serial, brand, model, price, description){
-    //     this.#serial = serial;
-	// 	this.#brand = brand;
-	// 	this.#model = model;
-	// 	this.#price = price;
-    //     this.#description = description;
-    // }
 
     //Propiedades de acceso a los atributos privados
 	get serial(){
@@ -75,6 +68,136 @@ class Product{
 	}
 }
 
+class Smartphone extends Product {
+	//Atributos privados
+	#band;
+	#storage;
+	#color;
+	constructor (serial, brand, model, price, description, band = "2G", storage = "0GB", color = "black"){
+		//La función se invoca con el operador new
+		if (!new.target) throw new InvalidAccessConstructorException();
+		//Llamada al superconstructor.
+		super(serial,brand,model,price,description);
+
+		//Validación de argumentos
+		if (!/([2-5]G)/.test(band)) throw new InvalidValueException("band",band);
+		
+		//Atributos privados
+		this.#band = band;
+		this.#storage = storage;
+		this.#color = color;
+	}
+
+	get band(){
+		return this.#band;
+	}
+	set band(value){
+		this.#band = value;
+	}
+
+	get storage(){
+		return this.#storage;
+	}
+	set storage(value){
+		this.#storage = value;
+	}
+
+	get color(){
+		return this.#color;
+	}
+	set color(value){
+		this.#color = value;
+	}
+
+	toString (){
+		return super.toString() + " Banda: " + this.band + " Almacenamiento: " + this.storage +
+			" Color: " + this.color;
+	}
+}
+
+class Tv extends Product {
+	//Atributos privados
+	#inches;
+	#smart;
+	constructor (serial, brand, model, price, description, inches = "0", smart = false){
+		//La función se invoca con el operador new
+		if (!new.target) throw new InvalidAccessConstructorException();
+		//Llamada al superconstructor.
+		super(serial,brand,model,price,description);
+		
+		//Atributos privados
+		this.#inches = inches;
+		this.#smart = smart;
+	}
+
+	get inches(){
+		return this.#inches;
+	}
+	set inches(value){
+		this.#inches = value;
+	}
+
+	get smart(){
+		return this.#smart;
+	}
+	set smart(value){
+		this.#smart = value;
+	}
+
+	toString (){
+		return super.toString() + " Pulgadas: " + this.inches +
+			" Smart Tv: " + this.smart;
+	}
+}
+
+class Laptop extends Product {
+	//Atributos privados
+	#processor;
+	#memory;
+	#storage;
+	constructor (serial, brand, model, price, description, processor = "unkonwn", memory = "0GB", storage = "0GB"){
+		//La función se invoca con el operador new
+		if (!new.target) throw new InvalidAccessConstructorException();
+		//Llamada al superconstructor.
+		super(serial,brand,model,price,description);
+
+		//Validación de argumentos
+		if (!processor) throw new EmptyValueException("processor");
+		//Atributos privados
+		this.#processor = processor;
+		this.#memory = memory;
+		this.#storage = storage;
+	}
+
+	get processor(){
+		return this.#processor;
+	}
+	set processor(value){
+		if (!value) throw new EmptyValueException("processor");
+		this.#processor = value;
+	}
+
+	get memory(){
+		return this.#memory;
+	}
+	set memory(value){
+		this.#memory = value;
+	}
+
+	get storage(){
+		return this.#storage;
+	}
+	set storage(value){
+		this.#storage = value;
+	}
+
+	toString (){
+		return super.toString() + " Procesador: " + this.processor +
+			" Memoria: " + this.memory + " Almacenamiento: " + this.storage;
+	}
+
+}
+
 class Category {
 	#title;
 	#description;
@@ -99,5 +222,10 @@ class Category {
 		if (!value) throw new EmptyValueException('description');
 		this.#description = value;
 	}
+
+	toString (){
+		return " Title: " + this.title +
+			" Description: " + this.description;
+	}
 }
-export {Product, Category};
+export {Product, Category, Laptop, Smartphone, Tv};

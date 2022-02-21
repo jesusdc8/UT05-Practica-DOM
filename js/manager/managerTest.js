@@ -1,5 +1,5 @@
 import {SuperTienda} from './manager.js';
-import { Product, Shop, Category } from './manager.js';
+import { Product, Shop, Category, Laptop, Smartphone, Tv } from './manager.js';
 import { BaseException,
   InvalidAccessConstructorException,
   EmptyValueException,
@@ -8,35 +8,35 @@ import { BaseException,
 
 import {ManagerException, ObjecManagerException, CategoryExistsException, ProductExistInCategoryException, CategoryNotExistException, ProductNotExistInManagerException, ProductNotExistInCategoryException} from './manager.js';
 
-let category1 = new Category('Moviles');
-let category2 = new Category('Portatiles');
-let category3 = new Category('Sobremesa');
-let category4 = new Category('Televisores');
+let category1 = new Category('Ultima Tecnologia', 'La tecnología más nueva');
+let category2 = new Category('Ordenadores', 'Todos nuestros ordenadores');
+let category3 = new Category('Gaming', 'Productos enfocados al gaming');
+let category4 = new Category('Estudiantes', 'Los mejores productos para los más estudiosos');
 
 category1.description = 'Telefonos móviles.';
 category2.description = 'Ordenadores portátiles';
 category3.description = 'Ordenadores sobremesa.';
 category4.description = 'Televisores de todos los tamaños';
 
-let product1 = new Product(1, 'Samsung', 'Galaxy s21', 1100);
-let product2 = new Product(2, 'Apple', 'Iphone 12 Pro', 1200);
-let product3 = new Product(3, 'Xiaomi', 'Mi 11', 500);
-let product4 = new Product(4, 'Apple', 'Iphone 11', 900);
+let product1 = new Smartphone(1, 'Samsung', 'Galaxy s21', 1100, "Último Samsung", '5G', '256gb', 'black');
+let product2 = new Smartphone(2, 'Apple', 'Iphone 12 Pro', 1200, "El mejor Iphone", '5G', '128gb', 'white');
+let product3 = new Smartphone(3, 'Xiaomi', 'Mi 11', 500, "Xiaomi calidad precio", '5G', '256gb', 'black');
+let product4 = new Smartphone(4, 'Apple', 'Iphone 11', 900, "Iphone normal", '4G', '128gb', 'rose');
 
-let product5 = new Product(5, 'Acer', 'Aspire', 500);
-let product6 = new Product(6, 'HP', 'Pavilion', 1000);
-let product7 = new Product(7, 'MSI', 'Ultra', 1300);
-let product8 = new Product(8, 'HP', 'UltraBook', 1000);
+let product5 = new Laptop(5, 'Acer', 'Aspire', 500, 'Lo mejor para ofimática', 'Intel i3 5400', '8gb', '500gb');
+let product6 = new Laptop(6, 'HP', 'Pavilion', 1000, 'Lo mejor para estudiantes', 'Intel i5 5400', '8gb', '500gb');
+let product7 = new Laptop(7, 'MSI', 'Ultra', 1300, 'Lo mejor para gamers', 'Intel i7 5400', '16gb', '1tb');
+let product8 = new Laptop(8, 'HP', 'UltraBook', 1000, 'Lo mejor para viajar', 'Intel i5 5400', '16gb', '500gb');
 
-let product9 = new Product(9, 'HP', 'OMEN', 1100);
-let product10 = new Product(10, 'SuperTienda', 'Ultra', 1200);
-let product11 = new Product(11, 'SuperTienda', 'Mega', 1300);
-let product12 = new Product(12, 'HP', 'Gaming', 1400);
+let product9 = new Product(9, 'HP', 'OMEN', 1100, 'Sobremesa de HP');
+let product10 = new Product(10, 'SuperTienda', 'Ultra', 1200, 'Sobremesa montado por nosotros mismos');
+let product11 = new Product(11, 'SuperTienda', 'Mega', 1300, 'Sobremesa montado por nosotros mismos');
+let product12 = new Product(12, 'HP', 'Gaming', 1400, 'Sobremesa de HP para gaming');
 
-let product13 = new Product(13, 'Lg', 'Oled', 1800);
-let product14 = new Product(14, 'Samsung', 'Qled', 1200);
-let product15 = new Product(15, 'Lg', 'NanoCell', 1300);
-let product16 = new Product(16, 'Lg', '4k', 1400);
+let product13 = new Tv(13, 'Lg', 'Oled', 1800, 'Negros más puros', '55', true);
+let product14 = new Tv(14, 'Samsung', 'Qled', 1200, 'Lo mejor de Samsung', '55', true);
+let product15 = new Tv(15, 'Lg', 'NanoCell', 1300, 'Última tecnologia', '60', true);
+let product16 = new Tv(16, 'Lg', '4k', 1400, 'Iniciación en alta resolución', '50', true);
 
 let shop1 = new Shop(1, 'Calle falsa 123','Madrid','Spain','https://upload.wikimedia.org/wikipedia/commons/4/44/Plaza_Mayor_de_Madrid_06.jpg');
 let shop2 = new Shop(2, 'Calle de la concepción 4','Barcelona','Spain','https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/4d/45/49/province-of-barcelona.jpg?w=700&h=500&s=1');

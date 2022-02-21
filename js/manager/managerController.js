@@ -4,7 +4,7 @@ import { BaseException,
   EmptyValueException,
   InvalidValueException,
   AbstractClassException } from './manager.js';
-import {Product, Category} from './manager.js';
+import {Product, Category, Laptop, Smartphone, Tv} from './manager.js';
 import {ManagerException, ObjecManagerException, CategoryExistsException, ProductExistInCategoryException, CategoryNotExistException, ProductNotExistInManagerException, ProductNotExistInCategoryException} from './manager.js';
 
 class SuperTiendaController {
