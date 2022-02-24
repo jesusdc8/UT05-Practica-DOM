@@ -59,6 +59,8 @@ function testCreateObjects(){
   superTienda.addProductInCategory(category2, product5, product6, product7, product8);
   superTienda.addProductInCategory(category3, product9, product10, product11, product12);
   superTienda.addProductInCategory(category4, product13, product14, product15, product16);
+
+  superTienda.addProductInShop(shop1, product1, product3, product5, product7);
 }
 
 function testListProducts(){
@@ -88,12 +90,42 @@ function testListShops(){
 	}
 }
 
+function testListProductsInShop(shop){
+  let superTienda = SuperTienda.getInstance();
+
+  console.log('Viendo productos de la tienda');
+  for (let product of superTienda.getShopProducts(shop)){
+    console.log(product);
+  }
+  
+
+}
+
+function testGetCategoryOfProduct(){
+  let superTienda = SuperTienda.getInstance();
+  console.log('Opteniendo la categoria asignada a un producto');
+
+  console.log(superTienda.getCategoryProduct(product1));
+}
+
+function testGetShopCategories (){
+  let superTienda = SuperTienda.getInstance();
+  console.log('Opteniendo las categorias de una tienda');
+
+  for (let category of superTienda.getShopCategories(shop1)){
+    console.log('La tienda ' + shop1.city + 'contiene la categoria ' + category);
+  }
+}
+
 function testManager(){
 	console.log("Testeo del Manager");
 	testCreateObjects();
   testListProducts();
   testListShops();
-testListCategories()
+  testListCategories()
+  testListProductsInShop(shop1);
+  testGetCategoryOfProduct();
+  testGetShopCategories();
 }
 
 export {testManager};

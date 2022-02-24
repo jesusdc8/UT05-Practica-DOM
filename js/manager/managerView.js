@@ -67,22 +67,42 @@ class SuperTiendaView {
     let shop = superTienda.findShop(parseInt(shopId));
     // console.log(superTienda.findShop(parseInt(shopId)));
     // console.log(shop);
+
+    //Primero vamos a recuperar los productos disponibles de esa tienda
+    
+    
     this.main.empty();
-    this.main.append(`<div class="container px-4 py-5 mt-3"><h2 class="pb-2 border-bottom">Información sobre la Tienda</h2>
+    this.main.append(`<div class="container px-4 py-5 mt-3" id='shop-info'>
+    <h2 class="pb-2 border-bottom">Información sobre la Tienda</h2>
     <div class="e" style="background-color: ; float: left; ">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Plaza_Mayor_de_Madrid_06.jpg" alt="" class="shop-img m-3 rounded">
-      
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Plaza_Mayor_de_Madrid_06.jpg" alt=""
+        class="shop-img m-3 rounded">
+
     </div>
     <h3 class="m-3">Madrid</h3>
     <ul class="list-group">
       <li class="list-group-item active" aria-current="true">
         Identificador : ${shop.shop.id}
-      </a>
+        </a>
       <li class="list-group-item">Dirección: ${shop.shop.address}</a>
       <li class="list-group-item">País: ${shop.shop.country}</a>
-  </div>
-</div>`);     
+    </ul>
+  </div>`);
+
+  
+  $('#shop-info').after(`<div class="container">
+  <h3 class="m-3 border-bottom">Productos</h3>
+    <div class="container" id='products-shop'>
+
+    </div>
+  </div>`);
+
+    // for (let product of shop) {
+      
+    // }
   }
+
+  
 
     
 

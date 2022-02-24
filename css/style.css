@@ -12,3 +12,8 @@
     width: 100%;
     max-width: 300px;
 }
+
+.tab-content{
+    display: flex;
+    justify-content: center;
+}

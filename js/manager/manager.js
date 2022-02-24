@@ -180,6 +180,33 @@ let SuperTienda = (function () {
           return this;
         }
 
+        addProductInShop (shop){
+          if (!(shop instanceof Shop)) {
+            throw new ObjecManagerException ('shop', 'Shop');
+          }
+          if (!this.#shops.has(shop.id)){
+            this.addShop(shop);
+          }
+  
+          let storedShop = this.#shops.get(shop.id);
+          for (let i = 1; i < arguments.length; i++){
+            let product = arguments[i];
+            if (!(product instanceof Product)) {
+              throw new ObjecManagerException ('product', 'product');
+            }
+            if (!this.#products.has(product.serial)){
+              this.addProduct(product);
+            }
+            let storedProduct = this.#products.get(product.serial);
+            if (!storedShop.products.has(product.serial)){
+              storedShop.products.set(product.serial, storedProduct);
+            } else {
+              throw new ProductExistInShopException(product, shop);
+            }
+          }
+          return this;
+        }
+
         get categories(){
           // referencia para habilitar el closure en el objeto
           let values = this.#categories.values();
@@ -204,6 +231,74 @@ let SuperTienda = (function () {
             }
           }
         }
+
+          * getCategoryProducts(category, ordered){
+          if (!(category instanceof Category)) {
+            throw new ObjecManagerException ('category', 'Category');
+          }
+          if (this.#categories.has(category.title)){
+            let storedCategory = this.#categories.get(category.title);
+            let values = (ordered)? storedCategory.products.values(ordered) : storedCategory.products.values();
+            for (let product of values){
+              yield product;
+            }
+          } else{
+            throw new CategoryNotExistException(category);
+          }
+        }
+
+        * getShopProducts(shop){
+          if (!(shop instanceof Shop)) {
+            throw new ObjecManagerException ('shop', 'Shop');
+          }
+          if (this.#shops.has(shop.id)){
+            let storedShop = this.#shops.get(shop.id);
+            let values = storedShop.products.values();
+            for (let product of values){
+              yield product;
+            }
+          } else{
+            throw new ShopNotExitsException(shop);
+          }
+        }
+
+        //obtiene la categoria de un producto si esque este tiene alguna asignada
+        getCategoryProduct(product){
+          if (!(product instanceof Product)) {
+            throw new ObjecManagerException ('product', 'Product');
+          }
+          for (let [key, value] of this.#categories) {
+            if (value.products.has(product.serial)){
+              return key;
+            }
+          }
+        }
+
+        * getShopCategories(shop){
+          if (!(shop instanceof Shop)) {
+            throw new ObjecManagerException ('shop', 'Shop');
+          }
+          if (this.#shops.has(shop.id)){
+            //recuperamos los productos de shop
+            let categories = [];
+            let storedShop = this.#shops.get(shop.id);
+            let values = storedShop.products.values();
+            for (let product of values){
+              if (!categories.find(product)){
+                categories.push(this.getCategoryProduct(product));
+
+                yield this.getCategoryProduct(product);
+              }
+              
+              
+            }           
+          
+          } else{
+            throw new ShopNotExitsException(shop);
+          }
+        }
+
+
 
         addProductInShop (shop){
           if (!(shop instanceof Shop)) { //validamos que el argumento sea un obj category
