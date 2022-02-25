@@ -269,7 +269,7 @@ let SuperTienda = (function () {
           }
           for (let [key, value] of this.#categories) {
             if (value.products.has(product.serial)){
-              return key;
+              return value;
             }
           }
         }
@@ -280,12 +280,12 @@ let SuperTienda = (function () {
           }
           if (this.#shops.has(shop.id)){
             //recuperamos los productos de shop
-            let categories = [];
+            let categories = new Set();
             let storedShop = this.#shops.get(shop.id);
             let values = storedShop.products.values();
             for (let product of values){
-              if (!categories.find(product)){
-                categories.push(this.getCategoryProduct(product));
+              if (!categories.has(this.getCategoryProduct(product))){
+                categories.add(this.getCategoryProduct(product));
 
                 yield this.getCategoryProduct(product);
               }

@@ -17,3 +17,12 @@
     display: flex;
     justify-content: center;
 }
+
+#products-shop .list-group{
+    max-width: none;
+}
+
+#products-shop li {
+    text-align: center;
+    width: 50%;
+}
