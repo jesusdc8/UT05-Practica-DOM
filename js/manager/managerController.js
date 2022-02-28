@@ -17,6 +17,15 @@ class SuperTiendaController {
         testAddObjects();
     }
 
+    #handlerHistory = () => {
+        window.addEventListener('popstate', e => {
+            console.log(e.state);
+            if (e.state != null){
+                this.loadPage(e.state);
+            }
+        });
+    }
+
     //los añadimos al constructor
     constructor(model, view){
         this.#modelSuperTienda = model;
@@ -25,20 +34,38 @@ class SuperTiendaController {
         // Eventos iniciales del Controlador
 		this.onLoad();
 		this.onInit();
-
+        this.#handlerHistory();
 		// Enlazamos handlers con la vista
 		this.#viewSuperTienda.bindInit(this.handleInit);
         this.#viewSuperTienda.bindShop(this.handleShop);
-		// this.#managerView.bindDisplayShops(this.handleDisplayShops);
+
+        
+    }
+
+    loadPage(page){
+        let pageType = page.page;
+        switch (pageType) {
+            case 'inicio':
+                this.onInit();
+                break;
+            case 'shop':
+                this.handleShop(page.shop);
+            default:
+                break;
+        }
     }
 
     onLoad = () => {
+        history.pushState({page:'inicio'},null,'');
         this.#loadSuperTiendaObjects();
     }
-   
+ 
     onInit = () => {
         this.#viewSuperTienda.displayShops(this.#modelSuperTienda.shops);
         this.#viewSuperTienda.loadDropdowns(this.#modelSuperTienda.shops, this.#modelSuperTienda.categories);
+        //Reenlazamos el handler
+        this.#viewSuperTienda.bindShop(this.handleShop);
+        
     }
 
     handleInit = () => {

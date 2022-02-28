@@ -7,6 +7,9 @@ class SuperTiendaView {
   #excecuteHandler(handler, handlerArguments, scrollElement, data, url, event){
 		handler(...handlerArguments);
 		$(scrollElement).get(0).scrollIntoView();
+    console.log("estado: "+history.state);
+    console.log("data: "+data);
+    history.pushState(data, null, url);
 		event.preventDefault();
 	}
 
@@ -18,16 +21,17 @@ class SuperTiendaView {
   }
 
   bindInit(handler){
-		$('#init').click((event) => {
-			this.#excecuteHandler(handler, [], 'body', {action: 'init'}, '#', event);
-		});
-
-		$('#logo').click((event) => {
-			this.#excecuteHandler(handler, [], 'body', {action: 'init'}, '#', event);
-		});
+      $('#init').click((event) => {
+        this.#excecuteHandler(handler, [], 'body', {page:'inicio'}, '', event);
+      });
+  
+      $('#logo').click((event) => {
+        this.#excecuteHandler(handler, [], 'body', {page: 'inicio'}, '', event);
+      });
 	}
 
   displayShops(shops) {
+    this.main.empty();
     
     this.main.append(`<div class="container px-4 py-5 mt-3" id="custom-cards"><h2 class="pb-2 border-bottom">Tiendas Disponibles</h2><div class="row row-cols-1 row-cols-md-3  g-4 "><section style='display:none' id="shop-card">`);
     let cards = $('#shop-card');
@@ -44,7 +48,7 @@ class SuperTiendaView {
         <li class="list-group-item">${shop.id}</li>
       </ul>
       <div class="card-body">
-        <a href="#" class="btn btn-primary" value="${shop.id}">Ver tienda</a>
+        <a class="btn btn-primary" value="${shop.id}">Ver tienda</a>
       </div>
     </div>`);
     }
@@ -52,13 +56,15 @@ class SuperTiendaView {
   }
 
   loadDropdowns(shops, categories){
+    this.shopMenu.empty();
+    this.categoryMenu.empty();
 
       for (let shop of shops){
-          this.shopMenu.append(`<li><a class="dropdown-item" href="#" value="${shop.id}">${shop.city}</a></li>`);
+          this.shopMenu.append(`<li><a class="dropdown-item" value="${shop.id}">${shop.city}</a></li>`);
       }
 
       for (let category of categories){
-        this.categoryMenu.append(`<li><a class="dropdown-item" href="#" value="${category.title}">${category.title}</a></li>`);
+        this.categoryMenu.append(`<li><a class="dropdown-item" value="${category.title}">${category.title}</a></li>`);
       }
   }
 
@@ -68,9 +74,9 @@ class SuperTiendaView {
       
       this.#excecuteHandler(
 				handler, [shop],
-				'#dropdown-menu-shops',
-				{action: 'clickDropdown', category: shop},
-				'#dropdown-menu-shops', event
+				'body',
+				{page:'shop', shop:shop},
+				'', event
 				);
     });
 
@@ -79,9 +85,9 @@ class SuperTiendaView {
 
       this.#excecuteHandler(
 				handler, [shop],
-				'#dropdown-menu-shops',
-				{action: 'clickDropdown', category: shop},
-				'#dropdown-menu-shops', event
+				'body',
+				{page:'shop', shop:shop},
+				'', event
 				);
     });
   }
@@ -139,31 +145,20 @@ class SuperTiendaView {
           <li class="list-group-item active">Descripción</li>
         </ul>
       `);
-      // console.log(category.products);
-      // $('.product-table').after(`
-      // <ul class="list-group list-group-horizontal">
-      //   <li class="list-group-item">e</li>
-      //   <li class="list-group-item">e</li>
-      //   <li class="list-group-item">e</li>
-      //   <li class="list-group-item">e</li>
-      //   <li class="list-group-item">e</li>
-      // </ul>
-      // `);
-
-        for (let [key, value] of category.products) {
-          if (shop.products.has(value.serial)){
-            $('.product-table').after(`
-            <ul class="list-group list-group-horizontal ">
-              <li class="list-group-item flex-fill">${value.serial}</li>
-              <li class="list-group-item flex-fill">${value.brand}</li>
-              <li class="list-group-item flex-fill">${value.model}</li>
-              <li class="list-group-item flex-fill">${value.price}</li>
-              <li class="list-group-item flex-fill">${value.description}</li>
-            </ul>
-            `);
-          }
-          
-        }     
+      for (let [key, value] of category.products) {
+        if (shop.products.has(value.serial)){
+          $('.product-table').after(`
+          <ul class="list-group list-group-horizontal ">
+            <li class="list-group-item flex-fill">${value.serial}</li>
+            <li class="list-group-item flex-fill">${value.brand}</li>
+            <li class="list-group-item flex-fill">${value.model}</li>
+            <li class="list-group-item flex-fill">${value.price}</li>
+            <li class="list-group-item flex-fill">${value.description}</li>
+          </ul>
+          `);
+        }
+        
+      }     
 
         $('.product-table').removeClass('product-table');
         // i++;
