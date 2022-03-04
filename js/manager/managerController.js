@@ -38,6 +38,7 @@ class SuperTiendaController {
 		// Enlazamos handlers con la vista
 		this.#viewSuperTienda.bindInit(this.handleInit);
         this.#viewSuperTienda.bindShop(this.handleShop);
+        this.#viewSuperTienda.bindCategory(this.handleCategory);
 
         
     }
@@ -74,6 +75,12 @@ class SuperTiendaController {
 
     handleShop = (link) => {
         this.#viewSuperTienda.loadShop(this.#modelSuperTienda.findShop(parseInt(link)), this.#modelSuperTienda.getShopCategories(this.#modelSuperTienda.findShop(parseInt(link)).shop));
+    }
+
+    handleCategory = (link) => {
+        let category = this.#modelSuperTienda.findCategory(link);
+        console.log(category)
+        this.#viewSuperTienda.loadCategory( category , this.#modelSuperTienda.getCategoryProducts(category.category));
     }
     
 }

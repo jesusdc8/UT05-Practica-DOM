@@ -92,15 +92,14 @@ class SuperTiendaView {
     });
   }
 
-  bindCategorie(handler){
-    $('.dropdown').find('a').click( (event) => { 
+  bindCategory(handler){
+    $('#dropdown-menu-categories').find('a').click( (event) => { 
       let link = event.target.attributes.value.value;      
-      
       this.#excecuteHandler(
 				handler, [link],
-				'.dropdown',
-				{action: 'clickDropdown', category: link},
-				'.dropdown', event
+				'body',
+				{page: 'category', category: link},
+				'', event
 				);
     });
   }
@@ -165,8 +164,68 @@ class SuperTiendaView {
     }
   }
 
-  bindProducts(handler){
+  loadCategory(category, products){
+    this.main.empty();
+    this.main.append(`<div class="container px-4 py-5 mt-3" id='shop-info'>
+    <h2 class="pb-2 border-bottom">Información sobre la Tienda</h2>
+    <div class="e" style="background-color: ; float: left; ">
+      <img src="${category.category.image}" alt=""
+        class="shop-img m-3 rounded">
 
+    </div>
+    <h3 class="m-3">${category.category.title}</h3>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Descripción</h5>
+        <p class="card-text">${category.category.description}.</p>
+      </div>
+    </div>
+    </div>`);
+
+    
+    $('#shop-info').after(`<div class="container">
+    <h3 class="m-3 border-bottom">Productos</h3>
+      <div class="container m-3" id='products-shop'>
+
+      </div>
+    </div>`);
+    let i = 0;
+    $('#products-shop').append(`<h3 id='h3'>${category.category.title}</h3><div class='container'>`);
+      $('#products-shop').has('div').eq(i).append(`
+        <ul class="list-group list-group-horizontal product-table">
+          <li class="list-group-item active">Serial</li>
+          <li class="list-group-item active">Marca</li>
+          <li class="list-group-item active">Modelo</li>
+          <li class="list-group-item active">Precio</li>
+          <li class="list-group-item active">Descripción</li>
+        </ul>
+      `);
+    for (let product of products){
+      
+      for (let [key, value] of category.products) {
+        
+          $('.product-table').after(`
+          <ul class="list-group list-group-horizontal " id=buenas>
+            <li class="list-group-item flex-fill">${value.serial}</li>
+            <li class="list-group-item flex-fill">${value.brand}</li>
+            <li class="list-group-item flex-fill">${value.model}</li>
+            <li class="list-group-item flex-fill">${value.price}</li>
+            <li class="list-group-item flex-fill">${value.description}</li>
+          </ul>
+          `);
+        
+        
+      }     
+
+        $('.product-table').removeClass('product-table');
+        // i++;
+    }
+
+    $('#buenas').click(function (e) { 
+      alert()
+      e.preventDefault();
+      
+    });
   }
 }
 

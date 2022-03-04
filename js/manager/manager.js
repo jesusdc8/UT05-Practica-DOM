@@ -157,7 +157,7 @@ let SuperTienda = (function () {
           if (!(category instanceof Category)) { //validamos que el argumento sea un obj category
             throw new ObjecManagerException ('category', 'Category');
           }
-          if (!this.#categories.has(category.title)){ //Validamos que no exista ya esa categoria
+          if (!this.#categories.has(category.title)){ //Validamos que no exista esa categoria
             this.addCategory(category);
           }
   
@@ -232,12 +232,35 @@ let SuperTienda = (function () {
           }
         }
 
-          * getCategoryProducts(category, ordered){
+        findCategory(category){
+          
+          if (this.#categories.has(category)){
+            return this.#categories.get(category);
+          } else {
+            throw new CategoryNotExistException(category);
+          }
+        }
+
+        //Obtiene los productos de una categoria al pasarle un obj category
+        * getCategoryProducts(category, ordered){
           if (!(category instanceof Category)) {
             throw new ObjecManagerException ('category', 'Category');
           }
           if (this.#categories.has(category.title)){
             let storedCategory = this.#categories.get(category.title);
+            let values = (ordered)? storedCategory.products.values(ordered) : storedCategory.products.values();
+            for (let product of values){
+              yield product;
+            }
+          } else{
+            throw new CategoryNotExistException(category);
+          }
+        }
+
+        //Obtiene los productos de una categoria al pasarle EL TÍTULO DE UNA CATEGORIA
+        * getCategoryProductsByTitle(category){
+          if (this.#categories.has(category)){
+            let storedCategory = this.#categories.get(category);
             let values = (ordered)? storedCategory.products.values(ordered) : storedCategory.products.values();
             for (let product of values){
               yield product;

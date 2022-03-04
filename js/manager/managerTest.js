@@ -9,15 +9,11 @@ import { BaseException,
 import {ManagerException, ObjecManagerException, CategoryExistsException, ProductExistInCategoryException, CategoryNotExistException, ProductNotExistInManagerException, ProductNotExistInCategoryException} from './manager.js';
 
 
-  let category1 = new Category('Ultima Tecnologia', 'La tecnología más nueva');
-  let category2 = new Category('Ordenadores', 'Todos nuestros ordenadores');
-  let category3 = new Category('Gaming', 'Productos enfocados al gaming');
-  let category4 = new Category('Estudiantes', 'Los mejores productos para los más estudiosos');
-
-  category1.description = 'Telefonos móviles.';
-  category2.description = 'Ordenadores portátiles';
-  category3.description = 'Ordenadores sobremesa.';
-  category4.description = 'Televisores de todos los tamaños';
+  let category1 = new Category('Ultima Tecnologia', 'La tecnología más nueva', 'https://techbooky.com/wp-content/uploads/2020/10/tech-gadgets.jpg');
+  let category2 = new Category('Ordenadores', 'Todos nuestros ordenadores', 'https://cdn.pixabay.com/photo/2016/03/27/07/12/apple-1282241_960_720.jpg');
+  let category3 = new Category('Gaming', 'Productos enfocados al gaming','https://signal.avg.com/hubfs/Blog_Content/Avg/Signal/AVG%20Signal%20Images/9%20Ways%20to%20Boost%20Your%20Gaming%20Rig/How_to_Improve_Your_Gaming_PC_Performance-Hero.jpg');
+  let category4 = new Category('Estudiantes', 'Los mejores productos para los más estudiosos','https://cdn.pixabay.com/photo/2015/01/08/18/25/desk-593327_960_720.jpg');
+  let defaultCategory = new Category('Los mejores Precios', 'Los mejores precios para nuestros productos','https://cdn.pixabay.com/photo/2015/01/08/18/25/desk-593327_960_720.jpg');
 
   let product1 = new Smartphone(1, 'Samsung', 'Galaxy s21', 1100, "Último Samsung", '5G', '256gb', 'black');
   let product2 = new Smartphone(2, 'Apple', 'Iphone 12 Pro', 1200, "El mejor Iphone", '5G', '128gb', 'white');
@@ -57,10 +53,11 @@ function testAddObjects(){
   superTienda.addProduct(product12, product13, product14, product15);
   superTienda.addProduct(product16, product11);
 
-  superTienda.addProductInCategory(category1, product1, product2, product3, product4);
-  superTienda.addProductInCategory(category2, product5, product6, product7, product8);
-  superTienda.addProductInCategory(category3, product9, product10, product11, product12);
-  superTienda.addProductInCategory(category4, product13, product14, product15, product16);
+  superTienda.addProductInCategory(category1, product1, product2, product7, product13);
+  superTienda.addProductInCategory(category2, product5, product6, product7, product8, product9, product10, product11, product12);
+  superTienda.addProductInCategory(category3, product12, product10, product9, product7);
+  superTienda.addProductInCategory(category4, product6, product5, product3, product4);
+  superTienda.addProductInCategory(defaultCategory, product3, product4, product14, product15, product16);
 
   superTienda.addProductInShop(shop1, product1, product3, product5, product7);
   superTienda.addProductInShop(shop2, product2, product4, product6, product8);

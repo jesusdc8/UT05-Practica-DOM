@@ -201,11 +201,12 @@ class Laptop extends Product {
 class Category {
 	#title;
 	#description;
-	constructor (title, description){
+	#image;
+	constructor (title, description, image){
 		if (!title) throw new EmptyValueException('title');
-
 		this.#title = title;
 		this.#description = description;
+		this.#image = image;
 	}
 
 	get title(){
@@ -223,9 +224,16 @@ class Category {
 		this.#description = value;
 	}
 
+	get image(){
+		return this.#image;
+	}
+	set image(value = 'No image'){
+		this.#image = image;
+	}
+
 	toString (){
 		return " Title: " + this.title +
-			" Description: " + this.description;
+			" Description: " + this.description + " Link Imagen: " + this.image;
 	}
 }
 export {Product, Category, Laptop, Smartphone, Tv};
