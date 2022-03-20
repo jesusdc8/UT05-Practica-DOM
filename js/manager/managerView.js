@@ -1,15 +1,25 @@
 import {SuperTienda} from './manager.js';
 import { testManager } from './managerTest.js';
+import AuxPageApp from './auxPageApp.js';
 
 class SuperTiendaView {
+ #auxPageApp = AuxPageApp.getInstance();
+
+ 
+  // #opened = new Map();
 
   //Añadimos la función privada para comunicarnos con el controlador
   #excecuteHandler(handler, handlerArguments, scrollElement, data, url, event){
 		handler(...handlerArguments);
 		$(scrollElement).get(0).scrollIntoView();
-    console.log("estado: "+history.state);
-    console.log("data: "+data);
+    // console.log("estado: "+history.state);
+    // console.log("data: "+data);
     history.pushState(data, null, url);
+		event.preventDefault();
+	}
+
+  #excecuteHandlerOffHistory(handler, handlerArguments, event){
+		handler(...handlerArguments);
 		event.preventDefault();
 	}
 
@@ -60,11 +70,11 @@ class SuperTiendaView {
     this.categoryMenu.empty();
 
       for (let shop of shops){
-          this.shopMenu.append(`<li><a class="dropdown-item" value="${shop.id}">${shop.city}</a></li>`);
+          this.shopMenu.append(`<li><a class="dropdown-item pointer" value="${shop.id}">${shop.city}</a></li>`);
       }
 
       for (let category of categories){
-        this.categoryMenu.append(`<li><a class="dropdown-item" value="${category.title}">${category.title}</a></li>`);
+        this.categoryMenu.append(`<li><a class="dropdown-item pointer" value="${category.title}">${category.title}</a></li>`);
       }
   }
 
@@ -142,6 +152,7 @@ class SuperTiendaView {
           <li class="list-group-item active">Modelo</li>
           <li class="list-group-item active">Precio</li>
           <li class="list-group-item active">Descripción</li>
+          <li class="list-group-item active">Ver Producto</li>
         </ul>
       `);
       for (let [key, value] of category.products) {
@@ -153,21 +164,29 @@ class SuperTiendaView {
             <li class="list-group-item flex-fill">${value.model}</li>
             <li class="list-group-item flex-fill">${value.price}</li>
             <li class="list-group-item flex-fill">${value.description}</li>
+            <li class="list-group-item flex-fill"><button type="button" id='${value.serial}' class="btn btn-outline-primary btn-product"><i class="bi bi-box-arrow-up-right"></i></button></li>
+
           </ul>
           `);
         }
         
       }     
-
-        $('.product-table').removeClass('product-table');
-        // i++;
+      $('.product-table').removeClass('product-table');       
     }
+    $('.btn-product').click((event) => { 
+      this.displayProductInfo(event.currentTarget.id);      
+      event.preventDefault();
+    });
+  }
+
+  displayProductInfo(serial){
+    this.#auxPageApp.newWindow(serial);
   }
 
   loadCategory(category, products){
     this.main.empty();
     this.main.append(`<div class="container px-4 py-5 mt-3" id='shop-info'>
-    <h2 class="pb-2 border-bottom">Información sobre la Tienda</h2>
+    <h2 class="pb-2 border-bottom">Información sobre la Categoría</h2>
     <div class="e" style="background-color: ; float: left; ">
       <img src="${category.category.image}" alt=""
         class="shop-img m-3 rounded">
@@ -198,12 +217,11 @@ class SuperTiendaView {
           <li class="list-group-item active">Modelo</li>
           <li class="list-group-item active">Precio</li>
           <li class="list-group-item active">Descripción</li>
+          <li class="list-group-item active">Ver Producto</li>
         </ul>
       `);
     for (let product of products){
-      
       for (let [key, value] of category.products) {
-        
           $('.product-table').after(`
           <ul class="list-group list-group-horizontal " id=buenas>
             <li class="list-group-item flex-fill">${value.serial}</li>
@@ -211,20 +229,15 @@ class SuperTiendaView {
             <li class="list-group-item flex-fill">${value.model}</li>
             <li class="list-group-item flex-fill">${value.price}</li>
             <li class="list-group-item flex-fill">${value.description}</li>
+            <li class="list-group-item flex-fill"><button type="button" id='${value.serial}' class="btn btn-outline-primary btn-product"><i class="bi bi-box-arrow-up-right"></i></button></li>
           </ul>
           `);
-        
-        
       }     
-
         $('.product-table').removeClass('product-table');
-        // i++;
     }
-
-    $('#buenas').click(function (e) { 
-      alert()
-      e.preventDefault();
-      
+    $('.btn-product').click((event) => { 
+      this.displayProductInfo(event.currentTarget.id);      
+      event.preventDefault();
     });
   }
 }

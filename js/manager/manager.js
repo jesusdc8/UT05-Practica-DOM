@@ -362,6 +362,10 @@ let SuperTienda = (function () {
           }
         }      
 
+        getProduct(serial){
+          return this.#products.get(serial);
+        }
+
         findShop(shopId){
           return this.#shops.get(shopId);
         }

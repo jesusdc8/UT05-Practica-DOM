@@ -12,6 +12,7 @@ class SuperTiendaController {
     // Creamos los campos privados para el modelo y la vista
     #modelSuperTienda;
     #viewSuperTienda;
+    #viewAuxPage;
 
     #loadSuperTiendaObjects = () => {
         testAddObjects();
@@ -19,7 +20,7 @@ class SuperTiendaController {
 
     #handlerHistory = () => {
         window.addEventListener('popstate', e => {
-            console.log(e.state);
+            // console.log(e.state);
             if (e.state != null){
                 this.loadPage(e.state);
             }
@@ -37,10 +38,17 @@ class SuperTiendaController {
         this.#handlerHistory();
 		// Enlazamos handlers con la vista
 		this.#viewSuperTienda.bindInit(this.handleInit);
-        this.#viewSuperTienda.bindShop(this.handleShop);
+        // this.#viewSuperTienda.bindShop(this.handleShop);
         this.#viewSuperTienda.bindCategory(this.handleCategory);
+        // this.#viewSuperTienda.bindProductType(this.handleProductType);
+        // this.#viewAuxPage.bindGetType(this.handleGetType);
+    }
 
-        
+    get viewAuxPage(){
+        return this.#viewAuxPage;
+    }
+    set viewAuxPage(value){
+        this.#viewAuxPage = value;
     }
 
     loadPage(page){
@@ -51,6 +59,10 @@ class SuperTiendaController {
                 break;
             case 'shop':
                 this.handleShop(page.shop);
+                break;
+            case 'category':
+                this.handleCategory(page.category);
+                break;
             default:
                 break;
         }
@@ -66,7 +78,7 @@ class SuperTiendaController {
         this.#viewSuperTienda.loadDropdowns(this.#modelSuperTienda.shops, this.#modelSuperTienda.categories);
         //Reenlazamos el handler
         this.#viewSuperTienda.bindShop(this.handleShop);
-        
+        this.#viewSuperTienda.bindCategory(this.handleCategory);
     }
 
     handleInit = () => {
@@ -79,9 +91,7 @@ class SuperTiendaController {
 
     handleCategory = (link) => {
         let category = this.#modelSuperTienda.findCategory(link);
-        console.log(category)
         this.#viewSuperTienda.loadCategory( category , this.#modelSuperTienda.getCategoryProducts(category.category));
     }
-    
 }
 export default SuperTiendaController;
