@@ -64,7 +64,7 @@ class Shop{
 	}
 
 	toString(){
-		return "id: " + this.id + " address: " + this.address + " country: " + this.country + " city: " + this.city + " image: " + this.image;
+		return "id:" + this.id + ",address:" + this.address + ",country:" + this.country + ",city:" + this.city + ",image:" + this.image;
 	}
 
 	

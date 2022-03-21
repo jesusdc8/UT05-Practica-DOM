@@ -65,39 +65,4 @@ let AuxPageApp = (function () {
     },
   };
 })();
-
-// class AuxPageApp {
-//   #opened = new Map();
-
-//   constructor() {
-//     // window.open(
-//     //   "auxPage.html",
-//     //   "e",
-//     //   "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no"
-//     // );
-//   }
-
-//   newWindow(serial) {
-//     if (!this.#opened.has(serial)) {
-//       this.#opened.set(
-//         serial,
-//         window.open(
-//           "auxPage.html",
-//           productSerial,
-//           "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no"
-//         )
-//       );
-//       this.#opened.get(serial).addEventListener("DOMContentLoaded", (event) => {
-//         // this.#opened.get(serial).showProduct();
-//       });
-//     } else {
-//       this.#opened.get(serial).focus();
-//     }
-//   }
-// }
-
-// const AuxPageApp = new AuxPageController(
-// 	SuperTienda.getInstance(), new AuxPageView()
-// 	);
-
 export default AuxPageApp;

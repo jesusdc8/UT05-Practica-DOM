@@ -64,7 +64,7 @@ class Product{
     }
 
 	toString(){
-		return "Serial: " + this.serial + " Brand: " + this.brand + " Model: " + this.model + " Price: " + this.price + " Description: " + this.description;
+		return "serial:" + this.serial + ",brand: " + this.brand + ",model: " + this.model + ",price: " + this.price + ",description: " + this.description;
 	}
 }
 
@@ -110,8 +110,8 @@ class Smartphone extends Product {
 	}
 
 	toString (){
-		return super.toString() + " Banda: " + this.band + " Almacenamiento: " + this.storage +
-			" Color: " + this.color;
+		return super.toString() + ",band:" + this.band + ",storage: " + this.storage +
+			",color: " + this.color;
 	}
 }
 
@@ -145,8 +145,8 @@ class Tv extends Product {
 	}
 
 	toString (){
-		return super.toString() + " Pulgadas: " + this.inches +
-			" Smart Tv: " + this.smart;
+		return super.toString() + ",inches: " + this.inches +
+			",smart:" + this.smart;
 	}
 }
 
@@ -192,8 +192,8 @@ class Laptop extends Product {
 	}
 
 	toString (){
-		return super.toString() + " Procesador: " + this.processor +
-			" Memoria: " + this.memory + " Almacenamiento: " + this.storage;
+		return super.toString() + ",processor:" + this.processor +
+			",memory:" + this.memory + ",storage:" + this.storage;
 	}
 
 }
@@ -232,8 +232,8 @@ class Category {
 	}
 
 	toString (){
-		return " Title: " + this.title +
-			" Description: " + this.description + " Link Imagen: " + this.image;
+		return "title:" + this.title + "," +
+			"description:" + this.description + "," + "image:" + this.image;
 	}
 }
 export {Product, Category, Laptop, Smartphone, Tv};

@@ -226,6 +226,17 @@ let SuperTienda = (function () {
             }
           }
         }
+        get shops(){
+          // referencia para habilitar el closure en el objeto
+          let values = this.#shops.values();
+          return {
+            * [Symbol.iterator](){
+              for (let storedShop of values){
+                yield storedShop.shop;
+              }
+            }
+          }
+        }
   
         //Devuelve un iterator de los productos
         get products(){

@@ -8,16 +8,224 @@ import { testManager,  testAddObjects} from './managerTest.js';
 import {Product, Category, Laptop, Smartphone, Tv} from './manager.js';
 import { Shop } from './manager.js';
 import {ManagerException, ObjecManagerException, CategoryExistsException, ProductExistInCategoryException, CategoryNotExistException, ProductNotExistInManagerException, ProductNotExistInCategoryException} from './manager.js';
+import BackupApp from './backupApp.js';
 
 class SuperTiendaController {
     // Creamos los campos privados para el modelo y la vista
     #modelSuperTienda;
     #viewSuperTienda;
     #viewAuxPage;
-    
+
+    recuperarBackup(){
+        console.log(this.#modelSuperTienda);
+
+        $.ajax({
+            type: "get",
+            url: "http://localhost/cliente/Practica%20DOM/UT05-Practica-DOM/backups/base.json",
+            dataType: "json",
+            success: (response)=>{
+                console.log(response);
+                response.categories.forEach(category => {
+                    console.log(category)
+                    let title = category.title;
+                        let description = category.description;
+                        let image = category.image;
+                    category.forEach(string => {
+                        console.log(string.split(':'));
+                        title = string.split(':')[1];
+                        description = string.split(':')[1];
+                        image = string.split(':')[2];
+                        console.log(title, description, image)
+                    });
+                    // category.forEach((category)=>{
+                        
+                        this.#modelSuperTienda.addCategory(new Category(title, description, image));
+                    // });    
+        
+        
+        
+                });
+                this.response.smartphones.forEach(smartphone => {
+                    let serial = smartphone.serial;
+                    let brand = smartphone.brand;
+                    let model = smartphone.model;
+                    let price = smartphone.price;
+                    let description = smartphone.description;
+                    let band = smartphone.band;
+                    let storage = smartphone.storage;
+                    let color = smartphone.color;
+        
+                    this.#modelSuperTienda.addProduct(new Smartphone(serial, brand, model, price, description, band, storage, color));
+        
+                });
+                this.response.laptops.forEach(laptop => {
+                    let serial = laptop.serial;
+                    let brand = laptop.brand;
+                    let model = laptop.model;
+                    let price = laptop.price;
+                    let description = laptop.description;
+                    let memory = laptop.memory;
+                    let storage = laptop.storage;
+        
+                    this.#modelSuperTienda.addProduct(new Laptop(serial, brand, model, price, description, processor, memory, storage));
+        
+                });
+        
+                this.response.products.forEach(product => {
+                    let serial = product.serial;
+                    let brand = product.brand;
+                    let model = product.model;
+                    let price = product.price;
+                    let description = product.description;
+        
+                    this.#modelSuperTienda.addProduct(new Product(serial, brand, model, price, description));
+        
+                });
+                this.response.tvs.forEach(tv => {
+                    let serial = tv.serial;
+                    let brand = tv.brand;
+                    let model = tv.model;
+                    let price = tv.price;
+                    let inches = tv.inches;
+                    let smart = tv.smart;
+        
+                    this.#modelSuperTienda.addProduct(new Tv(serial, brand, model, price, description, inches, smart));
+        
+                });
+                this.response.shops.forEach(shop => {
+                    let id = shop.id;
+                    let address = shop.address;
+                    let city = shop.city;
+                    let country = shop.country;
+                    let image = shop.image;
+        
+                    this.#modelSuperTienda.addShop(new Shop(id, address, city, country, image));
+        
+                });
+            }
+        });        
+        
+        
+    }
+
+    createBackup(){        
+        let objeto = {};
+        let categories = [];
+        let smartphones = [];
+        let laptops = [];
+        let products = [];
+        let tvs = [];
+        let shops = [];
+
+        for (let category of this.#modelSuperTienda.categories){
+            categories.push((category.toString()).split(','));
+        }
+        for (let smartphone of this.#modelSuperTienda.products){
+            if (smartphone instanceof Smartphone){
+                smartphones.push((smartphone.toString()).split(','));
+            }
+        }
+        for (let laptop of this.#modelSuperTienda.products){
+            if (laptop instanceof Laptop){
+                laptops.push((laptop.toString()).split(','));
+            }
+        }
+        for (let product of this.#modelSuperTienda.products){
+            if ( !(product instanceof Smartphone) && !(product instanceof Laptop) && !(product instanceof Tv)){
+                products.push((product.toString()).split(','));
+            }
+        }
+        for (let tv of this.#modelSuperTienda.products){
+            if (tv instanceof Tv){
+                tvs.push((tv.toString()).split(','));
+            }
+        }
+        for (let shop of this.#modelSuperTienda.shops){
+            if (shop instanceof Shop){
+                shops.push((shop.toString()).split(','));
+            }
+        }
+        
+        objeto.categories = categories;
+        objeto.smartphones = smartphones;
+        objeto.laptops = laptops;
+        objeto.products = products;
+        objeto.tvs = tvs;
+        objeto.shops = shops;
+
+        console.log(JSON.stringify(objeto));
+        let main = $(`main`);
+        main.empty();
+
+        let vfPostFile = $('#vfPostFile');
+        let base = location.protocol + '//' + location.host + location.pathname + 'backups';
+        console.log(base);
+        let url = new URL('submitForm.php', base);
+        let formData = new FormData();
+        // formData.append([JSON.stringify(objeto)]);
+        formData.append('results', '8');
+        formData.append('gender', 'female');
+        formData.append('webmasterfile', vfPostFile.get(0).files[0]);
+        let product = {
+        id: 123,
+        name: 'PC',
+        brand: 'HP',
+        model: 'EliteBook'
+        }
+        let blob = new Blob([JSON.stringify(objeto)], { type: "text/xml"});
+        formData.append("blobField", blob);
+        formData.append("objeto", [JSON.stringify(objeto)]);
+        fetch(url, {
+            method: 'post',
+            body: formData
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                console.dir(data);
+            // 
+            }).catch(function(err) {
+            console.log('No se ha recibido respuesta.');
+            });
+            // console.log(JSON.stringify(objeto));
+
+            var request = new XMLHttpRequest();
+            request.open("POST", url, true);
+            // request.send(base);
+            request.send(formData);
+
+            let myJson = JSON.stringify(objeto);
+            fetch('http://localhost/cliente/Practica%20DOM/UT05-Practica-DOM/', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: myJson,
+            })
+
+
+            // Creating a XHR object
+            let xhr = new XMLHttpRequest();
+            let url2 = "submit.php";
+        
+            // open a connection
+            xhr.open("POST", url2, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+  
+                    // Print received data from server
+                    result.innerHTML = this.responseText;
+
+                }
+            };
+            }  
 
     #loadSuperTiendaObjects = () => {
+        
         testAddObjects();
+        // this.recuperarBackup();
+        // this.createBackup();
+        
     }
 
     #handlerHistory = () => {

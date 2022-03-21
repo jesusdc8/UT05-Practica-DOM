@@ -1,0 +1,17 @@
+{
+    "category":[{
+        "title":"cat1",
+        "description":"descat1",
+        "image":"imacat1"
+    },
+    {
+        "title":"cat2",
+        "description":"descat2",
+        "image":"imacat2"
+    },
+    {
+        "title":"cat1",
+        "description":"descat2",
+        "image":"imacat2"
+    }]
+}
