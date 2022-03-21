@@ -66,9 +66,17 @@ class ProductExistInShopException extends ManagerException {
 
 class CategoryNotExistException extends ManagerException {
   constructor (category, fileName, lineNumber){
-    super(`Error: The ${category.title} doesn't exist in the manager.`, fileName, lineNumber);
+    super(`Error: The ${category} doesn't exist in the manager.`, fileName, lineNumber);
     this.category = category;
     this.name = 'CategoryNotExistException';
+  }
+}
+
+class ShopNotExistException extends ManagerException {
+  constructor (shop, fileName, lineNumber){
+    super(`Error: The ${shop} doesn't exist in the manager.`, fileName, lineNumber);
+    this.shop = shop;
+    this.name = 'ShopNotExistException';
   }
 }
 
@@ -128,7 +136,7 @@ let SuperTienda = (function () {
               throw new ObjecManagerException ('shop', 'Shop');
             }
             if (!this.#shops.has(shop.id)){ //Validamos que no exista ya esa categoria
-              this.#shops.set(shop.id, {
+              this.#shops.set(Number.parseInt(shop.id), {
                 shop: shop,
                 products: new Map() //inicializamos un mapa de productos de esa categoria
               });
@@ -367,7 +375,64 @@ let SuperTienda = (function () {
         }
 
         findShop(shopId){
-          return this.#shops.get(shopId);
+          return this.#shops.get(Number.parseInt(shopId));
+        }
+
+        deleteProduct(){
+          for (let serial of arguments){
+            if (this.#products.has(serial)){ 
+              this.#products.delete(serial);
+            } else {
+              console.log(serial);
+              console.log(this.#products);
+              throw new ProductNotExistInManagerException(serial);
+            }
+          }
+          return this;
+        }
+
+        deleteCategory(){
+          for (let category of arguments){
+            if (this.#categories.has(category)){ 
+              this.#categories.delete(category);
+            } else {
+              throw new CategoryNotExistException(category);
+            }
+          }
+          return this;
+        }
+
+        deleteShop(){
+          for (let shop of arguments){
+            if (this.#shops.has(Number.parseInt(shop))){ 
+              this.#shops.delete(Number.parseInt(shop));
+            } else {
+              throw new ShopNotExistException(shop);
+            }
+          }
+          return this;
+        }
+
+        deleteProductInShop(){
+          for (let serial of arguments){
+            for (let shop of this.#shops.values()){
+              if (shop.products.has(serial)){ 
+                shop.products.delete(serial);
+              } 
+            }
+          }
+          return this;
+        }
+
+        deleteProductInCategory(){
+          for (let serial of arguments){
+            for (let category of this.#categories.values()){
+              if (category.products.has(serial)){ 
+                category.products.delete(serial);
+              } 
+            }
+          }
+          return this;
         }
       }
 

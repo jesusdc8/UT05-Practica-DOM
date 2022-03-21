@@ -19,7 +19,7 @@ class AuxPageController {
         
         this.#modelSuperTienda = model;
         this.#viewAuxPage = view;
-        this.#productSerial = Number.parseInt(productSerial) ;
+        this.#productSerial = productSerial ;
         // Eventos iniciales del Controlador
 		this.onLoad();
 		this.onInit();
