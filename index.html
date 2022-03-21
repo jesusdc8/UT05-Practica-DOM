@@ -32,7 +32,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 myNavBar">
             <li class="nav-item">
               <a
                 class="nav-link active pointer"
@@ -82,8 +82,13 @@
               >
               </ul>
             </li>
-
-            <li class="nav-item dropdown">
+            <li class="nav-item">
+              <a class="nav-link pointer" id="logOut">Cerrar sesión</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pointer" id="logIn">Iniciar sesión</a>
+            </li>
+            <li class="nav-item dropdown admin" style="display: none;">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -101,6 +106,8 @@
               >
               </ul>
             </li>
+            
+
           </ul>
         </div>
       </div>

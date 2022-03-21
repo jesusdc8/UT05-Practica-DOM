@@ -310,6 +310,29 @@ function validDeleteShop(handler){
     });
 }
 
+function validLogIn(handler){
+    var form = document.forms.logInForm;
+    $('#sendButton').click(function (event) { 
+        event.preventDefault();
+        let isValid = true;
+
+        if  (!(form.user.value === 'admin') || !(form.pass.value === 'admin')){
+            validity(form.user, false);
+            validity(form.pass, false);
+            isValid = false;
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            validity(form.user, true);
+            validity(form.pass, true);
+        }
+
+        if (isValid){
+            handler(form);
+        }
+    });
+}
+
 
 function validity(input, valid){
     if (valid) {
@@ -322,5 +345,5 @@ function validity(input, valid){
     }
 }
 
-export {valid, validCategory, validDeleteProduct, validDeleteCategory, validDeleteShop, validShop} ;
+export {valid, validCategory, validDeleteProduct, validDeleteCategory, validDeleteShop, validShop, validLogIn} ;
 

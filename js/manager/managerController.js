@@ -73,16 +73,33 @@ class SuperTiendaController {
     onLoad = () => {
         history.pushState({page:'inicio'},null,'');
         this.#loadSuperTiendaObjects();
+
+        if (this.readCookie() === 'admin'){
+            this.#viewSuperTienda.showLogInModal(true, this.readCookie());
+            this.#viewSuperTienda.showAdminButton(true);
+            this.#viewSuperTienda.loadAdminMenu();
+            this.#viewSuperTienda.bindAdmin(this.handleAdmin);
+            this.#viewSuperTienda.showLoggedButton(true);
+            this.#viewSuperTienda.bindLogOut(this.handleLogOut);
+        } else {
+            this.#viewSuperTienda.showLoggedButton(false);
+        }
     }
  
     onInit = () => {
+        
         this.#viewSuperTienda.displayShops(this.#modelSuperTienda.shops);
         this.#viewSuperTienda.loadDropdowns(this.#modelSuperTienda.shops, this.#modelSuperTienda.categories);
-        this.#viewSuperTienda.loadAdminMenu();
+        
         //Reenlazamos el handler
         this.#viewSuperTienda.bindShop(this.handleShop);
         this.#viewSuperTienda.bindCategory(this.handleCategory);
-        this.#viewSuperTienda.bindAdmin(this.handleAdmin);
+        this.#viewSuperTienda.bindLogIn(this.handleLogIn);
+    }
+
+    readCookie(){
+        let re = new RegExp('(?:(?:^|.*;\\s*)' + 'username' + '\\s*\\=\\s*([^;]*).*$)|^.*$');
+        return document.cookie.replace(re, "$1");
     }
 
     handleInit = () => {
@@ -295,6 +312,37 @@ class SuperTiendaController {
         this.#viewSuperTienda.loadDropdowns(this.#modelSuperTienda.shops, this.#modelSuperTienda.categories);
         this.#viewSuperTienda.bindCategory(this.handleCategory);
         this.#viewSuperTienda.bindShop(this.handleShop);
+
+    }
+
+    handleLogIn = () => {
+        this.#viewSuperTienda.logInForm();
+        this.#viewSuperTienda.bindlogInForm(this.handleCreateCookie);
+    }
+
+    handleCreateCookie = (form) => {
+        const d = new Date();
+        d.setTime(d.getTime() + (3*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = 'username' + "=" + form.user.value + ";" + expires + ";path=/";
+        this.onInit();
+        this.#viewSuperTienda.showAdminButton(true);
+        this.#viewSuperTienda.loadAdminMenu();
+        this.#viewSuperTienda.bindAdmin(this.handleAdmin);
+        this.#viewSuperTienda.bindLogOut(this.handleLogOut);
+        this.#viewSuperTienda.showLogInModal(true, form.user.value);
+        this.#viewSuperTienda.showLoggedButton(true);
+
+    }
+
+    handleLogOut = () => {
+        const d = new Date();
+        d.setTime(d.getTime() + (0*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = 'username' + "=" + '' + ";" + expires + ";path=/";
+        this.#viewSuperTienda.showLogOutModal(true, 'admin');
+        this.#viewSuperTienda.showLoggedButton(false);
+        this.#viewSuperTienda.showAdminButton(false);
 
     }
 }

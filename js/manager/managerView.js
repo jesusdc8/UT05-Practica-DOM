@@ -1,7 +1,7 @@
 import {SuperTienda} from './manager.js';
 import { testManager } from './managerTest.js';
 import AuxPageApp from './auxPageApp.js';
-import {valid, validCategory, validDeleteProduct, validDeleteCategory, validDeleteShop, validShop} from '../validity.js';
+import {valid, validCategory, validDeleteProduct, validDeleteCategory, validDeleteShop, validShop, validLogIn} from '../validity.js';
 
 class SuperTiendaView {
  #auxPageApp = AuxPageApp.getInstance();
@@ -38,6 +38,183 @@ class SuperTiendaView {
         this.#excecuteHandler(handler, [], 'body', {page: 'inicio'}, '', event);
       });
 	}
+
+  bindLogIn(handler){
+    $('#logIn').click((event) => {
+      this.#excecuteHandler(handler, [], 'body', {page:'logIn'}, '', event);
+    });
+  }
+
+  bindLogOut(handler){
+    $('#logOut').click((event) => {
+      this.#excecuteHandlerOffHistory(handler, [], event);
+    });
+    
+  }
+
+  logInForm(){
+    this.main.empty();
+    this.main.append(`
+      <div class='container px-4 py-5 mt-3 myForm'>
+      <h2 class="pb-2 border-bottom">Iniciar Sesión</h2>
+      <br>
+      <form class="needs-validation" novalidate name='logInForm' method="get" id="logInForm">
+        
+        
+        
+        <div class="form-floating mb-3">
+          <input required type="text" class="form-control" id="user" placeholder="">
+          <label for="floatingInput">Nombre de usuario</label>
+          <div class="invalid-feedback">
+            
+          </div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input required type="password" class="form-control" id="pass" placeholder="">
+          <label for="floatingInput">Contraseña</label>
+          <div class="invalid-feedback">
+            
+          </div>
+        </div>      
+        
+        <br><br>
+        <button class="btn btn-primary" id='sendButton'>Enviar</button>
+      </form>
+       
+      </div>
+    `);
+  }
+
+  bindlogInForm(handler){
+    validLogIn(handler);
+  }
+
+  showLogInModal(done, user, error){
+    if (done){
+        let modal = $(`<div class="modal fade" id="logInModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Iniciando Sesión</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Hola ${user}.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hola!</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>`);
+
+      $('body').append(modal);
+      let logInModal = $('#logInModal');
+      logInModal.modal('show');
+      logInModal.find('button').click(() => {
+        logInModal.on('hidden.bs.modal', function (event) {
+         
+        this.remove();
+        });
+        logInModal.modal('hide');
+        })
+        
+     }
+    // else {
+    //   let modal = $(`<div class="modal fade" id="logInModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    //     <div class="modal-dialog">
+    //       <div class="modal-content">
+    //         <div class="modal-header">
+    //           <h5 class="modal-title text-danger" id="exampleModalLabel">El Producto ya existe.</h5>
+    //           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    //         </div>
+    //         <div class="modal-body text-danger">
+    //           El usuario .
+    //         </div>
+    //         <div class="modal-footer">
+    //           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+              
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>`);
+
+    //   $('body').append(modal);
+    //   let logInModal = $('#logInModal');
+    //   logInModal.modal('show');
+    //   logInModal.find('button').click(() => {
+    //     logInModal.on('hidden.bs.modal', function (event) {
+    //       document.logInForm.reset();
+    //     this.remove();
+    //     });
+    //     logInModal.modal('hide');
+    //     })
+    //   // $(document.addProductForm).prepend(`<div class="error text-danger p-
+    //   //   3"><i class="fas fa-exclamation-
+    //   //   triangle"></i> El Producto <strong>${product.model}</strong> ya existe.
+    //   //   </div>`);
+    // }
+    $('#addProductForm').find('input').removeClass('is-valid');
+    $('#addProductForm').find('textarea').removeClass('is-valid');
+  }
+
+  showLogOutModal(done, user, error){
+    if (done){
+        let modal = $(`<div class="modal fade" id="logOutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"Cerrando Sesión</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Adiós ${user}.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Adiós!</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>`);
+
+      $('body').append(modal);
+      let logOutModal = $('#logOutModal');
+      logOutModal.modal('show');
+      logOutModal.find('button').click(() => {
+        logOutModal.on('hidden.bs.modal', function (event) {
+         
+        this.remove();
+        });
+        logOutModal.modal('hide');
+        })
+        
+     }
+  }
+
+  showLoggedButton(logged){
+    if (logged){
+      $('#logIn').hide();
+      $('#logOut').show();
+    } else {
+      $('#logIn').show();
+      $('#logOut').hide();
+    }
+  }
+
+  showAdminButton(logged){
+    //NOTA aunque oculte no esté inciada la sesión y se cambie el display del menú admin, este no va a cargar las opciones por lo que sigue siendo seguro.
+    if (logged){
+      $('.admin').show();
+      this.loadAdminMenu();
+    } else {
+      $('.admin').hide();
+      $('.admin').find('ul').empty();
+    }
+  }
+  
 
   displayShops(shops) {
     this.main.empty();
